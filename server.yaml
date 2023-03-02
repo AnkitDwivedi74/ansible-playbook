@@ -1,6 +1,6 @@
 -- # Database configuration
 
-- hosts: frontend
+- hosts: server
   user: ubuntu
   become: yes
   connection: ssh
