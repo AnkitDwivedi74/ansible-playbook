@@ -1,0 +1,40 @@
+--- # Database configuration
+- hosts: database
+  user: ubuntu
+  become: yes
+  connection: ssh
+
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        force_apt_get: true
+
+
+    - name: install qemu-guest-agent and https
+      apt:
+        name:
+          - qemu-guest-agent
+            #          - https
+          - software-properties-common
+          - git
+        state: latest
+        #notify: service start
+
+
+    - name: service start
+      service:
+        name: qemu-guest-agent
+        state: started
+
+    - name: mariadb server
+      apt:
+        name: mariadb-server
+        state: latest
+
+    - name: start and enable service
+      service:
+        name: mariadb
+        state: started
+        enabled: true
